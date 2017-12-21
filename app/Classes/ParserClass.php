@@ -24,7 +24,7 @@ class Parser {
                 'name'      => '//*[@class="und"]',
                 'owner'     => '//*[@class="u-ceoname"]',
                 'address'   => '//*[@class="u-address"]',
-                'link'      => '//a'
+                'link'      => '//a/@href'
             ),
             'company' => array (
                 'name'      => '//*[@itemprop="name"]',

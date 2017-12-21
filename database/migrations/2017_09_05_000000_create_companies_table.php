@@ -29,7 +29,7 @@ class CreateCompaniesTable extends Migration
             $table->string('address')->nullable()->comment('Адрес организации');
             $table->string('web')->nullable()->comment('Сайт');
             $table->string('email')->nullable()->comment('Электронная почта');
-            $table->unsignedMediumInteger('inn')->unique()->nullable()->comment('ИНН организации');
+            $table->unsignedBigInteger('inn')->unique()->nullable()->comment('ИНН организации');
             $table->unsignedMediumInteger('opf_id')->unique()->nullable()->comment('Код ОКОПФ');
             $table->timestamps();
             $table->foreign('opf_id')->references('id')->on('opf');

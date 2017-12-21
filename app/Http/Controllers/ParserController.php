@@ -16,6 +16,12 @@ class ParserController extends Controller
     public function getCompany ( $id = null ) {
         $parser = new Parser();
 
-        return $parser->getCompany($id);
+        return $parser->getCompany( '/id/'.$id);
+    }
+
+    public function regexGetCompany ( $id = null) {
+        $parser = new Parser();
+
+        return  $parser->regexGetCompany('/id/'.$id);
     }
 }

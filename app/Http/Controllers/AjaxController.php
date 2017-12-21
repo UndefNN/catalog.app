@@ -32,7 +32,7 @@ class AjaxController extends Controller
             }*/
 
             $data[] = array(
-                'name' => $address['value'],
+                'name'          => $address['value'],
                 'unrestricted'  => $address['unrestricted_value'],
                 'postal_code'   => $address['data']['postal_code'],
                 'query'         => $string
@@ -96,7 +96,8 @@ class AjaxController extends Controller
             $data[] = array (
                 'id'            => $item->id,
                 'name'          => $item->full,
-//                'description'   => $item->full,
+                'query'         => $string,
+                'description'   => '',
             );
         }
 
@@ -127,7 +128,7 @@ class AjaxController extends Controller
             $data[] = array(
                 'name'        => (key_exists('name', $company)) ? $company['name']: '',
                 'description' => (key_exists('address', $company)) ? $company['address']: '',
-                'id'          => (key_exists('id', $company)) ? $company['link'] : '',
+                'id'          => (key_exists('link', $company)) ? $company['link'] : '',
                 'query'       => $string
             );
         }
