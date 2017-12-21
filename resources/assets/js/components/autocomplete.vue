@@ -39,8 +39,14 @@
                         break;
                     case 'select':
                         this.$emit('update-value', {
-                            'id': value.id,
-                            'name': this.target
+                            'name': this.target,
+                            'value': value.id,
+                        });
+                        break;
+                    case 'update_address':
+                        this.$emit('update-value', {
+                            'name':  this.target,
+                            'value': value.unrestricted,
                         });
                         break;
                     case 'getCompany':
@@ -65,7 +71,7 @@
                         break;
                     default:
                         html = `<span class="autocomplete-anchor-text">${ value.name.replace( pattern, '<b>$1</b>' ) }</span>`;
-                        if ( value.description !== "") {
+                        if ( value.description !== "" ) {
                             html += `<span class="autocomplete-anchor-label">${ value.description.replace( pattern, '<b>$1</b>' ) }</span>`
                         }
                         break;
