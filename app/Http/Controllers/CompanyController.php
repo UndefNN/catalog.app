@@ -32,7 +32,7 @@ class CompanyController extends Controller
             'inn'           => 'nullable|integer',
             'address'       => 'nullable|string',
             'web'           => 'nullable|string',
-            'email'         => 'required|email',
+            'email'         => 'required|regex:/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/',
             'description'   => 'string'
         ]);
 
