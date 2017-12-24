@@ -22,7 +22,8 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        Вы можете заполнить часть данных вашей организации автоматически, воспользовавашись поиском ниже.
+                        Вы можете заполнить часть данных вашей организации автоматически, воспользовавашись поиском
+                        ниже.
                         <search
                                 name="company"
                                 url="/ajax/search/company_profile"
@@ -60,7 +61,7 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <form action="" method="post" role="form" class="form form-default">
+                        <form action="/company/add" method="post" role="form" class="form form-default">
                             <legend>Добавление организации в справочник</legend>
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -114,6 +115,11 @@
                                         ref="search"
                                         v-model="value.address"
                                 ></search>
+                                <label for="phone">Телефон</label>
+                                <phone
+                                        name="phone"
+
+                                ></phone>
 
                                 <label for="web">Сайт</label>
                                 <div class="input-group">
@@ -126,11 +132,54 @@
                                     <span class="input-group-addon">@</span>
                                     <input type="text" name="email" class="form-control" v-model="value.email">
                                 </div>
+                                <!-- -->
 
-                                <label for="description">Краткое описание</label>
-                                <textarea name="description" rows="3" class="form-control" v-model="value.description"></textarea>
+
+
+                                <script src={{ asset('js/vue.js') }}></script>
+
+                                <div id="root">
+                                    <ul id="example-1">
+                                        <li v-for="item in items">
+                                            <ul>
+                                                <li>@{{ item.weight }}</li>
+                                                <li>@{{ item.volume }}</li>
+                                                <li>@{{ item.cost }}</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                    <button v-on:click="addItem">Add one</button>
+
+                                </div>
+
 
                             </div>
+                            <script>
+                                var root = new Vue({
+                                    el: '#root',
+                                    data: {
+                                        items: [
+                                            {weight: 100.0, volume: 0.01, cost: 45},
+                                            {weight: 200.0, volume: 0.02, cost: 66}
+                                        ]
+                                    },
+                                    methods: {
+                                        addItem: function () {
+                                            this.items.push({weight: 300.0, volume: 0.06, cost: 30});
+                                        }
+                                    }
+
+                                });
+                            </script>
+
+
+                            <!-- -->
+
+                            <label for="description">Краткое описание</label>
+                            <textarea name="description" rows="3" class="form-control"
+                                      v-model="value.description"></textarea>
+
 
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
@@ -138,23 +187,24 @@
                 </div>
             </div>
         </div>
+
     </section>
 @endsection
 
 @push('footer-scripts')
     @if ( old() )
-    <script type="text/javascript">
-        var data = {
-            name: '{{ old('short_name') }}',
-            full_name: '{{ old('full_name') }}',
-            inn: '{{ old('inn') }}',
-            opf: '{{ old('opf_select') }}',
-            opf_id: '{{ old('opf_id') }}',
-            address: '{{ old('address') }}',
-            web: '{{ old('web') }}',
-            email: '{{ old('email') }}',
-            description: '{{ old('description') }}',
-        }
-    </script>
+        <script type="text/javascript">
+            var data = {
+                name: '{{ old('short_name') }}',
+                full_name: '{{ old('full_name') }}',
+                inn: '{{ old('inn') }}',
+                opf: '{{ old('opf_select') }}',
+                opf_id: '{{ old('opf_id') }}',
+                address: '{{ old('address') }}',
+                web: '{{ old('web') }}',
+                email: '{{ old('email') }}',
+                description: '{{ old('description') }}',
+            }
+        </script>
     @endif
 @endpush
