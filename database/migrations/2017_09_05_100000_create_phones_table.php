@@ -16,7 +16,7 @@ class CreatePhonesTable extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('company_id')->comment('ID компании');
-            $table->unsignedInteger('number')->comment('Номер телефона');
+            $table->unsignedBigInteger('number')->comment('Номер телефона');
             $table->string('desc')->comment('Краткое описание номера телефон');
             $table->enum('type', ['m', 'w', 'f'])->comment('Тип телефона: мобильный, рабочий, факс');
             $table->timestamps();
