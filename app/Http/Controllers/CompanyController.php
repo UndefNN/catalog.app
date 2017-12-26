@@ -16,8 +16,7 @@ class CompanyController extends Controller
     }
 
     public function create() {
-        $opf = Opf::all('full');
-        return view('page.form.company-add', ['opf' => $opf]);
+        return view('page.form.company-add');
     }
 
     public function viewAll() {
@@ -30,33 +29,49 @@ class CompanyController extends Controller
 
 
         $this->validate( $request, [
-            'short_name'    => 'required|string',
-            'full_name'     => 'nullable|string',
-            'opf_id'        => 'nullable|integer|exists:opf,id',
-            'inn'           => 'nullable|integer',
-            'address'       => 'nullable|string',
-            'web'           => 'nullable|string',
-            'email'         => 'required|regex:/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/',
-            'description'   => 'string'
+            'short_name'     => 'required|string',
+            'full_name'      => 'nullable|string',
+            'opf_id'         => 'nullable|integer|exists:opf,id',
+            'inn'            =>  array('nullable', 'regex:/(^\d{10}\b)|(^\d{12}$)/', 'integer', 'unique:companies,inn'),
+            'address'        => 'nullable|string',
+            'web'            => 'nullable|string',
+            'email'          => 'required|regex:/^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/',
+            'description'    => 'nullable|string',
+            'phone.*.number' => 'nullable|integer',
+        ], [
+            'short_name.required' => 'Заполните название компании',
+            'short_name.string'   => 'Название компании должно быть строкой',
+            'inn.unique'          => 'Организация с таким ИНН уже существует',
+            'inn.*'               => 'Поле ИНН должно содержать 10 или 12 цифр',
+            'email.*'             => 'Обязательно укажите валидный Email',
+            'description.*'       => 'Заполните описание компании',
         ]);
 
 
         $company = new Company();
 
         $company->short_name  = $request->input('short_name');
-        $company->full_name   = $request->input('full_name');
+        $company->full_name   = $request->has('full_name') ? $request->input('full_name') : $request->input('short_name');
         $company->address     = $request->input('address');
-        $company->inn         = (int) $request->input('inn');
+
+        if ($request->has('inn')) {
+            $company->inn     = $request->input('inn');
+        }
+
         $company->web         = $request->input('web');
         $company->email       = $request->input('email');
         $company->description = $request->input('description');
         $company->opf_id      = $request->input('opf_id');
 
         $company->save();
-        $phonearr  =   $request->input('phone');
-        foreach ($phonearr as $phone)  { $company->phones()->create($phone);}
 
+        if ($request->has('phones')) {
+            $phones = $request->input('phone');
 
+            foreach ($phones as $phone) {
+                $company->phones()->save( new Phone($phone));
+            }
+        }
 
         return Redirect::route('company.view', $company)->with(['message' => 'Компания успешно добавлена']);
 

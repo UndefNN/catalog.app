@@ -26,14 +26,8 @@ class AjaxController extends Controller
         preg_match_all('/(\w{3,})/u', $string, $words);
 
         foreach ($addresses['suggestions'] as $address) {
-
-/*            foreach ($words[1] as $word) {
-                $address['value'] = preg_replace( '/('.$word.')/ui', '<b>$1</b>', $address['value']);
-            }*/
-
             $data[] = array(
-                'name'          => $address['value'],
-                'unrestricted'  => $address['unrestricted_value'],
+                'name'          => $address['unrestricted_value'],
                 'postal_code'   => $address['data']['postal_code'],
                 'query'         => $string
             );
