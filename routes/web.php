@@ -17,10 +17,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-
+//Это тестовые маршруты 
 Route::get('test/{string}', 'ParserController@getList');
-Route::get('test/id/{id}', 'ParserController@getCompany')->where('id', '\d+');
-
+Route::get('test/doom/{id}', 'ParserController@getCompany')->where('id', '\d+');
+Route::get('test/regex/{id}', 'ParserController@regexGetCompany')->where('id', '\d+');
 
 //Маршрут для ajax запросов
 Route::group(['prefix'=>'ajax'], function () {

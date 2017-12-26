@@ -108,5 +108,43 @@ class Parser {
         return $data;
     }
 
+    /**
+     * Парсер основанный на регулярных выражения
+     * */
+    public function regexGetCompany( $id ) {
+
+      $data = array();    // Массив, сюда будем сохранять данные
+      $ch = curl_init();  // Инициализация curl (загрузка страницы)
+
+      // установка URL и других необходимых параметров
+      curl_setopt($ch, CURLOPT_URL, $this->link . $id);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+      $html = curl_exec($ch); // загрузка страницы
+
+      curl_close($ch);  // завершение сеанса и освобождение ресурсов
+
+      // Массив с патернами для обработки параметров
+      $paterns = [
+          'name'      => '/<(\w+)\s+[^>]*itemprop=["\']name["\']\s?+[^>]*>(.*?)(\s+)?(<.*)?<\/\1>/su',
+          'full_name' => '/<(\w+)\s+[^>]*itemprop=["\']legalName["\']\s?+[^>]*>(.*?)<\/\1>/su',
+          'inn'       => '/<(\w+)\s+[^>]*itemprop=["\']taxID["\']\s?+[^>]*>(.*?)<\/\1>/su',
+          'postal'    => '/<(\w+)\s+[^>]*itemprop=["\']postalCode["\']\s?+[^>]*>(.*?)<\/\1>/su',
+          'region'    => '/<(\w+)\s+[^>]*itemprop=["\']addressRegion["\']\s?+[^>]*>(.*?)<\/\1>/su',
+          'locality'  => '/<(\w+)\s+[^>]*itemprop=["\']addressLocality["\']\s?+[^>]*>(.*?)<\/\1>/su',
+          'street'    => '/<(\w+)\s+[^>]*itemprop=["\']streetAddress["\']\s?+[^>]*>(.*?)<\/\1>/su',
+      ];
+
+      if ( $html !== false ) {
+        // Оходим массив патернов, и сохраняем значение полей
+          foreach ( $paterns as $key => $patern ) {
+              preg_match($patern, $html, $matches);
+              $data[$key] = isset($matches[2]) ? htmlspecialchars_decode( trim($matches[2]) ) : '';
+          }
+      }
+
+      return $data;
+    }
+
 
 }
