@@ -13,11 +13,10 @@
 
 use App\Models\Company;
 
-Route::get('/', function () {
-    return view('index');
-});
+//Главная страница
+Route::get('/', 'HomeController@index');
 
-//Это тестовые маршруты 
+//Это тестовые маршруты
 Route::get('test/{string}', 'ParserController@getList');
 Route::get('test/doom/{id}', 'ParserController@getCompany')->where('id', '\d+');
 Route::get('test/regex/{id}', 'ParserController@regexGetCompany')->where('id', '\d+');

@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -21,8 +21,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('home');
-    }
+     public function index()
+     {
+         $company = new Company();
+         //Кол-во компаний
+         //Пять последних
+         $data = [
+             'count'     => $company->count(),
+             'latest'    => $company->latest()->take(5)->get(),
+         ];
+
+         return view('index', $data);
+     }
 }
