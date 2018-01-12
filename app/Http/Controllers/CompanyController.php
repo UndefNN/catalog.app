@@ -65,7 +65,7 @@ class CompanyController extends Controller
 
         $company->save();
 
-        if ($request->has('phones')) {
+        if ($request->has('phone')) {
             $phones = $request->input('phone');
 
             foreach ($phones as $phone) {
